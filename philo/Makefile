@@ -17,7 +17,7 @@ BUILD_D		:=	.build/
 #LIB_D		:=	libft/
 INC			:=	inc/
 #---------------Add .c / .h here \/--------------
-SRC			:=	main.c
+SRC			:=	main.c p_atoi.c set_user_input.c
 #LIB			:=	ft readline
 #FRAMEWORK	:=	OpenGL	AppKit
 #----------------------IGNORE--------------------
@@ -55,7 +55,7 @@ all		:	$(NAME)
 #-----------------------------NAME-----------------------------------
 $(NAME)	:	$(OBJ)
 			TOTAL_OBJ=$(find .build -name "*.o")
-			echo "currently $(TOTAL_OBJ) objects"
+			echo "currently $(TOTAL_OBJ) objects out of $(TOTAL_OBJ) are compiled"
 			#$(MAKE) complib
 			${CC} $(LDFLAGS) $(OBJ) $(LDLIBS) $(LDFMWK) -o $(NAME)
 			$(info MAKING $(NAME).....)
@@ -66,7 +66,7 @@ $(BUILD_D)%.o	:	$(SRC_D)%.c
 			$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 			$(eval count=$(shell echo $$(($(count)+1))))
 			clear -x
-			echo compiled $(@F) $(count)/$(TOTAL_OBJ) objects
+			echo compiled $(@F) "\n" $(count)/$(TOTAL_OBJ) objects
 
 -include	${DEPS}
 #----------------------------COMPLIB---------------------------------

@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/29 16:20:26 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:11:44 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,9 @@ typedef struct	s_parse
 	int	time_eat;
 	int	time_sleep;
 	int	nb_eat;
+	int	error;
 }				t_parse;
+
+t_parse	set_user_input(int ac, char **av);
+int	p_atoi(char *str);
 #endif

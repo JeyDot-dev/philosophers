@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:17:38 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/29 17:03:30 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:11:00 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -39,6 +39,8 @@ int	check_string(char *str)
 
 int	p_atoi(char *str)
 {
+	int	nb;
+
 	if (!str || !check_string(str))
 		return (-1);
 	nb = 0;
