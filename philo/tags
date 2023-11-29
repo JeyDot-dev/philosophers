@@ -53,6 +53,7 @@ nb_philo	inc/philo.h	/^	int	nb_philo;$/;"	m	struct:s_parse
 p_atoi	src/p_atoi.c	/^int	p_atoi(char *str)$/;"	f
 p_strlen	src/p_atoi.c	/^int	p_strlen(char *str)$/;"	f
 print_error	src/set_user_input.c	/^int	print_error(char *str)$/;"	f
+print_parse	src/set_user_input.c	/^void	print_parse(t_parse parse, int ac)$/;"	f
 s_parse	inc/philo.h	/^typedef struct	s_parse$/;"	s
 set_user_extension	src/set_user_input.c	/^t_parse	set_user_extension(int ac, char **av, int i, t_parse parse)$/;"	f
 set_user_input	src/set_user_input.c	/^t_parse	set_user_input(int ac, char **av)$/;"	f
