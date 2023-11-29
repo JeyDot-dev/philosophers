@@ -27,10 +27,9 @@ LDFLAGS	Makefile	/^LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D)))$/;"	m
 LDFMWK	Makefile	/^LDFMWK		:=	$(addprefix -framework ,$(FRAMEWORKS))$/;"	m
 LDLIBS	Makefile	/^LDLIBS      :=	$(addprefix -l,$(LIB))$/;"	m
 LGR	Makefile	/^LGR	= \\033[37m$/;"	m
-LIB_D	Makefile	/^LIB_D		:=	libft\/$/;"	m
 MAG	inc/philo.h	25;"	d
-NAME	Makefile	/^NAME		:=	philosophers$/;"	m
-NB_OBJ	Makefile	/^NB_OBJ		:=	$(words $(OBJ))$/;"	m
+NAME	Makefile	/^NAME		:=	philo$/;"	m
+NB_OBJ	Makefile	/^NB_OBJ			:=	0$/;"	m
 OBJ	Makefile	/^OBJ 		:=	$(SRC:$(SRC_D)%.c=$(BUILD_D)%.o)$/;"	m
 PHILO_H	inc/philo.h	14;"	d
 PUR	Makefile	/^PUR	= \\033[35m$/;"	m
@@ -38,12 +37,22 @@ RED	Makefile	/^RED	= \\033[31m$/;"	m
 RED	inc/philo.h	21;"	d
 RM	Makefile	/^RM			:=	rm -rf$/;"	m
 RST	Makefile	/^RST	= \\033[0m$/;"	m
-SHELL	Makefile	/^SHELL=\/bin\/bash$/;"	m
 SRC	Makefile	/^SRC			:=	$(SRC:%=$(SRC_D)%)$/;"	m
 SRC	Makefile	/^SRC			:=	main.c$/;"	m
 SRC_D	Makefile	/^SRC_D		:=	src\/$/;"	m
+TOTAL_OBJ	Makefile	/^TOTAL_OBJ		:=	$(words $(OBJ))$/;"	m
 UNAME_S	Makefile	/^UNAME_S 	:= $(shell uname -s)$/;"	m
 WHT	inc/philo.h	27;"	d
 YEL	inc/philo.h	23;"	d
+check_string	src/p_atoi.c	/^int	check_string(char *str)$/;"	f
 count	Makefile	/^count = 0$/;"	m
 main	src/main.c	/^int	main()$/;"	f
+nb_eat	inc/philo.h	/^	int	nb_eat;$/;"	m	struct:s_parse
+nb_philo	inc/philo.h	/^	int	nb_philo;$/;"	m	struct:s_parse
+p_atoi	src/p_atoi.c	/^int	p_atoi(char *str)$/;"	f
+p_strlen	src/p_atoi.c	/^int	p_strlen(char *str)$/;"	f
+s_parse	inc/philo.h	/^typedef struct	s_parse$/;"	s
+t_parse	inc/philo.h	/^}				t_parse;$/;"	t	typeref:struct:s_parse
+time_die	inc/philo.h	/^	int	time_die;$/;"	m	struct:s_parse
+time_eat	inc/philo.h	/^	int	time_eat;$/;"	m	struct:s_parse
+time_sleep	inc/philo.h	/^	int	time_sleep;$/;"	m	struct:s_parse

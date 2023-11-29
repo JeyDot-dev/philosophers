@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/29 12:17:20 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:20:26 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,13 @@
 # define MAG "\e[0;35m"
 # define CYN "\e[0;36m"
 # define WHT "\e[0;37m"
+
+typedef struct	s_parse
+{
+	int	nb_philo;
+	int	time_die;
+	int	time_eat;
+	int	time_sleep;
+	int	nb_eat;
+}				t_parse;
 #endif
