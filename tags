@@ -1,0 +1,49 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AR	Makefile	/^AR          :=	ar$/;"	m
+ARFLAGS	Makefile	/^ARFLAGS     :=	-r -c -s$/;"	m
+BLK	Makefile	/^BLK	= \\033[30m$/;"	m
+BLK	inc/philo.h	20;"	d
+BLU	Makefile	/^BLU	= \\033[34m$/;"	m
+BLU	inc/philo.h	24;"	d
+BRN	Makefile	/^BRN	= \\033[33m$/;"	m
+BUILD_D	Makefile	/^BUILD_D		:=	.build\/$/;"	m
+CC	Makefile	/^CC			:=	gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS		:=	-Wextra -Werror -Wall$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS    :=	-MMD -MP $(addprefix -I,$(INC))$/;"	m
+CYN	Makefile	/^CYN	= \\033[36m$/;"	m
+CYN	inc/philo.h	26;"	d
+DEPS	Makefile	/^DEPS        :=	$(OBJ:.o=.d)$/;"	m
+DIR_DUP	Makefile	/^DIR_DUP     =	mkdir -p "$(@D)"$/;"	m
+FRAMEWORK	Makefile	/^FRAMEWORK	:=	$/;"	m
+GRN	Makefile	/^GRN	= \\033[32m$/;"	m
+GRN	inc/philo.h	22;"	d
+INC	Makefile	/^INC			:=	inc\/$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D)))$/;"	m
+LDFMWK	Makefile	/^LDFMWK		:=	$(addprefix -framework ,$(FRAMEWORKS))$/;"	m
+LDLIBS	Makefile	/^LDLIBS      :=	$(addprefix -l,$(LIB))$/;"	m
+LGR	Makefile	/^LGR	= \\033[37m$/;"	m
+LIB_D	Makefile	/^LIB_D		:=	libft\/$/;"	m
+MAG	inc/philo.h	25;"	d
+NAME	Makefile	/^NAME		:=	philosophers$/;"	m
+NB_OBJ	Makefile	/^NB_OBJ		:=	$(words $(OBJ))$/;"	m
+OBJ	Makefile	/^OBJ 		:=	$(SRC:$(SRC_D)%.c=$(BUILD_D)%.o)$/;"	m
+PHILO_H	inc/philo.h	14;"	d
+PUR	Makefile	/^PUR	= \\033[35m$/;"	m
+RED	Makefile	/^RED	= \\033[31m$/;"	m
+RED	inc/philo.h	21;"	d
+RM	Makefile	/^RM			:=	rm -rf$/;"	m
+RST	Makefile	/^RST	= \\033[0m$/;"	m
+SHELL	Makefile	/^SHELL=\/bin\/bash$/;"	m
+SRC	Makefile	/^SRC			:=	$(SRC:%=$(SRC_D)%)$/;"	m
+SRC	Makefile	/^SRC			:=	main.c$/;"	m
+SRC_D	Makefile	/^SRC_D		:=	src\/$/;"	m
+UNAME_S	Makefile	/^UNAME_S 	:= $(shell uname -s)$/;"	m
+WHT	inc/philo.h	27;"	d
+YEL	inc/philo.h	23;"	d
+count	Makefile	/^count = 0$/;"	m
+main	src/main.c	/^int	main()$/;"	f
