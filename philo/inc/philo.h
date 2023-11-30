@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/30 15:59:14 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/30 19:04:58 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 # define CYN "\e[0;36m"
 # define WHT "\e[0;37m"
 
+typedef struct s_locks
+{
+	pthread_mutex_t *l_forks;
+}				t_locks;
+
 typedef struct	s_parse
 {
 	int	nb_philo;
@@ -39,10 +44,15 @@ typedef struct	s_parse
 typedef struct	s_philo
 {
 	int	id;
-	int	lfork;
-	int	rfork;
+	int	forks[2];
+	int	nb_eaten;
+	int	last_eat;
 	int	is_dead;
+	t_locks	*locks;
+	t_parse	parse;
 }				t_philo;
+
+
 t_parse	set_user_input(int ac, char **av);
 int	p_atoi(char *str);
 #endif

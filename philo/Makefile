@@ -96,6 +96,9 @@ endif
 #------------------------------RE------------------------------------
 re		:	fclean all
 			echo "\033[5;33m \t\tALL RECOMPILED !!! $(RST)"
+test	:	all
+			./$(NAME) 5 800 200 200
+			./$(NAME) 4 410 200 200
 
-.PHONY	:	all clean fclean re
+.PHONY	:	all clean fclean re test
 .SILENT :
