@@ -13,7 +13,7 @@ BLU	inc/philo.h	24;"	d
 BRN	Makefile	/^BRN	= \\033[33m$/;"	m
 BUILD_D	Makefile	/^BUILD_D		:=	.build\/$/;"	m
 CC	Makefile	/^CC			:=	gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS		:=	-Wextra -Werror -Wall$/;"	m
+CFLAGS	Makefile	/^CFLAGS		:=	-Wextra -Werror -Wall -pthread$/;"	m
 CPPFLAGS	Makefile	/^CPPFLAGS    :=	-MMD -MP $(addprefix -I,$(INC))$/;"	m
 CYN	Makefile	/^CYN	= \\033[36m$/;"	m
 CYN	inc/philo.h	26;"	d
@@ -23,7 +23,7 @@ FRAMEWORK	Makefile	/^FRAMEWORK	:=	$/;"	m
 GRN	Makefile	/^GRN	= \\033[32m$/;"	m
 GRN	inc/philo.h	22;"	d
 INC	Makefile	/^INC			:=	inc\/$/;"	m
-LDFLAGS	Makefile	/^LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D)))$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D))) -pthread$/;"	m
 LDFMWK	Makefile	/^LDFMWK		:=	$(addprefix -framework ,$(FRAMEWORKS))$/;"	m
 LDLIBS	Makefile	/^LDLIBS      :=	$(addprefix -l,$(LIB))$/;"	m
 LGR	Makefile	/^LGR	= \\033[37m$/;"	m
@@ -45,8 +45,12 @@ UNAME_S	Makefile	/^UNAME_S 	:= $(shell uname -s)$/;"	m
 WHT	inc/philo.h	27;"	d
 YEL	inc/philo.h	23;"	d
 check_string	src/p_atoi.c	/^int	check_string(char *str)$/;"	f
+check_time_coherence	src/set_user_input.c	/^void	check_time_coherence(t_parse parse)$/;"	f
 count	Makefile	/^count = 0$/;"	m
 error	inc/philo.h	/^	int	error;$/;"	m	struct:s_parse
+id	inc/philo.h	/^	int	id;$/;"	m	struct:s_philo
+is_dead	inc/philo.h	/^	int	is_dead;$/;"	m	struct:s_philo
+lfork	inc/philo.h	/^	int	lfork;$/;"	m	struct:s_philo
 main	src/main.c	/^int	main(int ac, char **av)$/;"	f
 nb_eat	inc/philo.h	/^	int	nb_eat;$/;"	m	struct:s_parse
 nb_philo	inc/philo.h	/^	int	nb_philo;$/;"	m	struct:s_parse
@@ -54,10 +58,15 @@ p_atoi	src/p_atoi.c	/^int	p_atoi(char *str)$/;"	f
 p_strlen	src/p_atoi.c	/^int	p_strlen(char *str)$/;"	f
 print_error	src/set_user_input.c	/^int	print_error(char *str)$/;"	f
 print_parse	src/set_user_input.c	/^void	print_parse(t_parse parse, int ac)$/;"	f
+print_time_since_launch	src/main.c	/^void	print_time_since_launch(struct timeval launch_time)$/;"	f
+rfork	inc/philo.h	/^	int	rfork;$/;"	m	struct:s_philo
 s_parse	inc/philo.h	/^typedef struct	s_parse$/;"	s
+s_philo	inc/philo.h	/^typedef struct	s_philo$/;"	s
 set_user_extension	src/set_user_input.c	/^t_parse	set_user_extension(int ac, char **av, int i, t_parse parse)$/;"	f
 set_user_input	src/set_user_input.c	/^t_parse	set_user_input(int ac, char **av)$/;"	f
 t_parse	inc/philo.h	/^}				t_parse;$/;"	t	typeref:struct:s_parse
+t_philo	inc/philo.h	/^}				t_philo;$/;"	t	typeref:struct:s_philo
+thread_test	src/main.c	/^void	*thread_test(void *arg)$/;"	f
 time_die	inc/philo.h	/^	int	time_die;$/;"	m	struct:s_parse
 time_eat	inc/philo.h	/^	int	time_eat;$/;"	m	struct:s_parse
 time_sleep	inc/philo.h	/^	int	time_sleep;$/;"	m	struct:s_parse

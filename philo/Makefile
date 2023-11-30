@@ -42,11 +42,11 @@ CC			:=	gcc
 DIR_DUP     =	mkdir -p "$(@D)"
 #-MMD -MP = Used to add dependencies during precomp. (for .h)
 CPPFLAGS    :=	-MMD -MP $(addprefix -I,$(INC))
-CFLAGS		:=	-Wextra -Werror -Wall
+CFLAGS		:=	-Wextra -Werror -Wall -pthread
 # -(r)eplace the older objects, -(c)reate if no lib, -s index stuff
 AR          :=	ar
 ARFLAGS     :=	-r -c -s
-LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D)))
+LDFLAGS     :=	$(addprefix -L,$(dir $(LIB_D))) -pthread
 LDLIBS      :=	$(addprefix -l,$(LIB))
 LDFMWK		:=	$(addprefix -framework ,$(FRAMEWORKS))
 MAKEFLAGS   += --no-print-directory

@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/29 18:11:44 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:59:14 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct	s_parse
 	int	error;
 }				t_parse;
 
+typedef struct	s_philo
+{
+	int	id;
+	int	lfork;
+	int	rfork;
+	int	is_dead;
+}				t_philo;
 t_parse	set_user_input(int ac, char **av);
 int	p_atoi(char *str);
 #endif

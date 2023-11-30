@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:48:05 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/29 19:19:20 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:16:15 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -17,6 +17,16 @@ int	print_error(char *str)
 	return (1);
 }
 
+void	check_time_coherence(t_parse parse)
+{
+	int	time_to_eat_total;
+
+	time_to_eat_total = parse.time_eat;
+	if (parse.nb_philo > 1 && parse.nb_philo % 2 == 1)
+		time_to_eat_total = parse.time_eat * 2;
+	if (parse.time_die < time_to_eat_total + parse.time_sleep)
+		print_error("Time to die is too short (or time to eat/sleep is too long)");
+}
 void	print_parse(t_parse parse, int ac)
 {
 	if (ac == 6)
