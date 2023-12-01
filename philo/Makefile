@@ -59,7 +59,7 @@ $(NAME)	:	$(OBJ)
 			#$(MAKE) complib
 			${CC} $(LDFLAGS) $(OBJ) $(LDLIBS) $(LDFMWK) -o $(NAME)
 			$(info MAKING $(NAME).....)
-			echo "\033[5;32m\t\tFinished compiling $(NAME) !!! $(CLR)"
+			echo "\033[5;32m\t\tFinished compiling $(NAME) !!! $(RST)"
 #------------------------OBJ COMPILATION-----------------------------
 $(BUILD_D)%.o	:	$(SRC_D)%.c
 			$(DIR_DUP)
@@ -97,8 +97,7 @@ endif
 re		:	fclean all
 			echo "\033[5;33m \t\tALL RECOMPILED !!! $(RST)"
 test	:	all
-			./$(NAME) 5 800 200 200
-			./$(NAME) 4 410 200 200
+			./$(NAME) 5 800 200 200 5
 
 .PHONY	:	all clean fclean re test
 .SILENT :

@@ -6,33 +6,158 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/30 19:50:04 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:57:40 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-void	print_time_since_launch(struct timeval launch_time)
+int	timestamp(struct timeval launch_time, char c)
+{
+	struct timeval current_time;
+	long			time;
+	
+	gettimeofday(&current_time, NULL);
+	time = current_time.tv_sec * 1000 - launch_time.tv_sec * 1000 + current_time.tv_usec / 1000 - launch_time.tv_usec / 1000;
+	if (c == '1')
+		printf("%li ", time);
+	return ((int) time);
+}
+void	utimestamp(struct timeval launch_time, char *str)
 {
 	struct timeval current_time;
 	
-	usleep(1 * 100000);
 	gettimeofday(&current_time, NULL);
-	printf("time since launch: %li\n", current_time.tv_sec * 1000 - launch_time.tv_sec * 1000 + current_time.tv_usec / 1000 - launch_time.tv_usec / 1000);
+	if (str)
+		printf("%s", str);
+	printf("time since launch: %lius\n",
+			current_time.tv_sec * 1000000 - launch_time.tv_sec * 1000000 + current_time.tv_usec - launch_time.tv_usec);
 }
-void	*thread_test(void *arg)
+int	join_threads(pthread_t *threads, int nb_philos)
 {
-	t_philo	*philos;
-	
-	philos = (t_philo *) arg;
-	while (1)
-	{
-		usleep(1 * 1000000);
-		if (philos->is_dead)
-			printf("Philosopher %d is dead\n", philos->id);
-		else
-			printf("Philosopher %d is alive\n", philos->id);
-	}
+	int	i;
 
+	i = 0;
+	while (i < nb_philos)
+	{
+		printf("joining thread %d\n", i);
+		pthread_join(threads[i], NULL);
+		i++;
+	}
+	return (0);
+}
+int	routine_sleep(t_philo *philo, struct timeval launch_time)
+{
+	if (philo->is_dead)
+		return (0);
+	pthread_mutex_lock(philo->locks->l_print);
+	timestamp(launch_time, '1');
+	printf("%d is sleeping\n", philo->id);
+	pthread_mutex_unlock(philo->locks->l_print);
+	usleep(philo->parse.time_sleep * 1000);
+	return (0);
+}
+int	routine_think(t_philo *philo, struct timeval launch_time)
+{
+	if (philo->is_dead)
+		return (0);
+	pthread_mutex_lock(philo->locks->l_print);
+	timestamp(launch_time, '1');
+	printf("%d is thinking\n", philo->id);
+	pthread_mutex_unlock(philo->locks->l_print);
+	return (0);
+}
+int	routine_eat(t_philo *philo, struct timeval launch_time)
+{
+	if (philo->is_dead)
+		return (0);
+	pthread_mutex_lock(philo->locks->l_print);
+	timestamp(launch_time, '1');
+	printf("%d is eating\n", philo->id);
+	pthread_mutex_unlock(philo->locks->l_print);
+	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
+	philo->is_eating = 1;
+	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
+	usleep(philo->parse.time_eat * 1000);
+	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
+	philo->is_eating = 0;
+	philo->nb_eaten++;
+	philo->last_eat = timestamp(launch_time, '0');
+	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
+	return (0);
+}
+int routine_take_forks(t_philo *philo, struct timeval launch_time)
+{
+	if (philo->is_dead)
+		return (0);
+	pthread_mutex_lock(&philo->locks->l_forks[philo->forks[0]]);
+	pthread_mutex_lock(philo->locks->l_print);
+	timestamp(launch_time, '1');
+	printf("%d has taken a fork\n", philo->id);
+	pthread_mutex_unlock(philo->locks->l_print);
+	pthread_mutex_lock(&philo->locks->l_forks[philo->forks[1]]);
+	pthread_mutex_lock(philo->locks->l_print);
+	timestamp(launch_time, '1');
+	printf("%d has taken a fork\n", philo->id);
+	pthread_mutex_unlock(philo->locks->l_print);
+	return (0);
+}
+int routine_put_forks(t_philo *philo)
+{
+	if (philo->is_dead)
+		return (0);
+	pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
+	pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
+	return (0);
+}
+void	*do_routine(void *v_philo)
+{
+	t_philo			*philo;
+
+	philo = (t_philo *) v_philo;
+	pthread_mutex_lock(philo->locks->l_print);
+//	printf("philo %d is_dead: %d\n", philo->id, philo->is_dead);
+	pthread_mutex_unlock(philo->locks->l_print);
+	while (!philo->is_dead)
+	{
+		if (philo->id % 2 == 0)
+		{
+			routine_sleep(philo, philo->start);
+			routine_think(philo, philo->start);
+			routine_take_forks(philo, philo->start);
+			routine_eat(philo, philo->start);
+			routine_put_forks(philo);
+		}
+		else
+		{
+			routine_take_forks(philo, philo->start);
+			routine_eat(philo, philo->start);
+			routine_put_forks(philo);
+			routine_sleep(philo, philo->start);
+			routine_think(philo, philo->start);
+		}
+	}
+	return (0);
+}
+int	routine(t_philo *philos)
+{
+	pthread_t	*threads;
+	int			i;
+
+	i = 0;
+	threads = malloc(sizeof(pthread_t) * philos->parse.nb_philo);
+	while (i < philos->parse.nb_philo)
+	{
+		pthread_create(&threads[i], NULL, do_routine, &philos[i]);
+		i += 2;
+	}
+	i = 1;
+	while (i < philos->parse.nb_philo)
+	{
+		pthread_create(&threads[i], NULL, do_routine, &philos[i]);
+		i += 2;
+	}
+	join_threads(threads, philos->parse.nb_philo);
+	return (0);
 }
 t_philo *malloc_philos(int nb_philos)
 {
@@ -55,8 +180,16 @@ t_philo *malloc_philos(int nb_philos)
 		free(locks);
 		return (NULL);
 	}
+	locks->l_print = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(locks->l_print, NULL);
 	philos->locks = locks;
 	return (philos);
+}
+t_philo *swap_forks(t_philo *philo, int i)
+{
+	philo[i].forks[0] = 0;
+	philo[i].forks[1] = i;
+	return (philo);
 }
 t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 {
@@ -69,12 +202,9 @@ t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 		philos[i].forks[0] = i;
 		pthread_mutex_init(&locks->l_forks[philos[i].forks[0]], NULL);
 		if (i == parse.nb_philo - 1)
-			philos[i].forks[1] = 0;
+			philos = swap_forks(philos, i);
 		else
-		{
 			philos[i].forks[1] = i + 1;
-			pthread_mutex_init(&locks->l_forks[philos[i].forks[1]], NULL);
-		}
 		philos[i].is_dead = 0;
 		philos[i].nb_eaten = 0;
 		philos[i].locks = locks;
@@ -83,14 +213,27 @@ t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 	}
 	return (philos);
 }
-t_philo *init_philos(t_parse parse)
+t_philo *init_philos(t_parse parse, struct timeval launch_time)
 {
 	t_philo	*philos;
+	int		i;
 
+	i = 0;
 	philos = malloc_philos(parse.nb_philo);
 	if (!philos)
 		return (NULL);
 	philos = init_extension(philos, parse, philos->locks);
+	philos->locks->l_is_eating = malloc(sizeof(pthread_mutex_t) * parse.nb_philo);
+	if (!philos->locks->l_is_eating)
+	{
+		free(philos);
+		return (NULL);
+	}
+	while (i < parse.nb_philo)
+	{
+		philos[i].start = launch_time;
+		pthread_mutex_init(&philos->locks->l_is_eating[i++], NULL);
+	}
 	return (philos);
 }
 void	print_philos(t_philo *philos, int nb_philos)
@@ -108,17 +251,16 @@ void	print_philos(t_philo *philos, int nb_philos)
 int	main(int ac, char **av)
 {
 	t_parse			parse;
-	pthread_t		*threads;
 	t_philo			*philos;
 	struct timeval	launch_time;
 
-	(void)launch_time;
+	gettimeofday(&launch_time, NULL);
 	parse = set_user_input(ac, av);
 	if (parse.error)
 		return (1);
-	threads = malloc(sizeof(pthread_t) * parse.nb_philo);
-	(void)threads;
-	philos = init_philos(parse);
-	print_philos(philos, parse.nb_philo);
+	philos = init_philos(parse, launch_time);
+	//print_philos(philos, parse.nb_philo);
+	printf("pre routine\n");
+	routine(philos);
 	return (0);
 }
