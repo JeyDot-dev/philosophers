@@ -52,7 +52,7 @@ error	inc/philo.h	/^	int	error;$/;"	m	struct:s_parse
 forks	inc/philo.h	/^	int	forks[2];$/;"	m	struct:s_philo
 id	inc/philo.h	/^	int	id;$/;"	m	struct:s_philo
 init_extension	src/main.c	/^t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)$/;"	f
-init_philos	src/main.c	/^t_philo *init_philos(t_parse parse, struct timeval launch_time)$/;"	f
+init_philos	src/main.c	/^t_philo *init_philos(t_parse parse)$/;"	f
 is_dead	inc/philo.h	/^	int	is_dead;$/;"	m	struct:s_philo
 is_eating	inc/philo.h	/^	int	is_eating;$/;"	m	struct:s_philo
 join_threads	src/main.c	/^int	join_threads(pthread_t *threads, int nb_philos)$/;"	f
@@ -87,6 +87,7 @@ s_philo	inc/philo.h	/^typedef struct	s_philo$/;"	s
 set_user_extension	src/set_user_input.c	/^t_parse	set_user_extension(int ac, char **av, int i, t_parse parse)$/;"	f
 set_user_input	src/set_user_input.c	/^t_parse	set_user_input(int ac, char **av)$/;"	f
 start	inc/philo.h	/^	struct timeval	start;$/;"	m	struct:s_philo	typeref:struct:s_philo::timeval
+super_sleep	src/main.c	/^void	super_sleep(struct timeval launch_time, int time)$/;"	f
 swap_forks	src/main.c	/^t_philo *swap_forks(t_philo *philo, int i)$/;"	f
 t_locks	inc/philo.h	/^}				t_locks;$/;"	t	typeref:struct:s_locks
 t_parse	inc/philo.h	/^}				t_parse;$/;"	t	typeref:struct:s_parse

@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/01 16:57:40 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:28:12 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ void	utimestamp(struct timeval launch_time, char *str)
 	printf("time since launch: %lius\n",
 			current_time.tv_sec * 1000000 - launch_time.tv_sec * 1000000 + current_time.tv_usec - launch_time.tv_usec);
 }
+void	super_sleep(struct timeval launch_time, int time)
+{
+	struct timeval current_time;
+	
+	gettimeofday(&current_time, NULL);
+	time = current_time.tv_sec * 1000000 - launch_time.tv_sec * 1000000 + current_time.tv_usec - launch_time.tv_usec + time * 1000;
+	while (current_time.tv_sec * 1000000 - launch_time.tv_sec * 1000000 + current_time.tv_usec - launch_time.tv_usec < time)
+		gettimeofday(&current_time, NULL);
+}
 int	join_threads(pthread_t *threads, int nb_philos)
 {
 	int	i;
@@ -53,7 +62,7 @@ int	routine_sleep(t_philo *philo, struct timeval launch_time)
 	timestamp(launch_time, '1');
 	printf("%d is sleeping\n", philo->id);
 	pthread_mutex_unlock(philo->locks->l_print);
-	usleep(philo->parse.time_sleep * 1000);
+	super_sleep(launch_time, philo->parse.time_sleep);
 	return (0);
 }
 int	routine_think(t_philo *philo, struct timeval launch_time)
@@ -77,7 +86,7 @@ int	routine_eat(t_philo *philo, struct timeval launch_time)
 	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
 	philo->is_eating = 1;
 	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
-	usleep(philo->parse.time_eat * 1000);
+	super_sleep(launch_time, philo->parse.time_eat);
 	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
 	philo->is_eating = 0;
 	philo->nb_eaten++;
@@ -114,6 +123,7 @@ void	*do_routine(void *v_philo)
 	t_philo			*philo;
 
 	philo = (t_philo *) v_philo;
+	gettimeofday(&philo->start, NULL);
 	pthread_mutex_lock(philo->locks->l_print);
 //	printf("philo %d is_dead: %d\n", philo->id, philo->is_dead);
 	pthread_mutex_unlock(philo->locks->l_print);
@@ -194,7 +204,7 @@ t_philo *swap_forks(t_philo *philo, int i)
 t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 {
 	int	i;
-
+	
 	i = 0;
 	while (i < parse.nb_philo)
 	{
@@ -213,7 +223,7 @@ t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 	}
 	return (philos);
 }
-t_philo *init_philos(t_parse parse, struct timeval launch_time)
+t_philo *init_philos(t_parse parse)
 {
 	t_philo	*philos;
 	int		i;
@@ -230,10 +240,7 @@ t_philo *init_philos(t_parse parse, struct timeval launch_time)
 		return (NULL);
 	}
 	while (i < parse.nb_philo)
-	{
-		philos[i].start = launch_time;
 		pthread_mutex_init(&philos->locks->l_is_eating[i++], NULL);
-	}
 	return (philos);
 }
 void	print_philos(t_philo *philos, int nb_philos)
@@ -252,13 +259,11 @@ int	main(int ac, char **av)
 {
 	t_parse			parse;
 	t_philo			*philos;
-	struct timeval	launch_time;
 
-	gettimeofday(&launch_time, NULL);
 	parse = set_user_input(ac, av);
 	if (parse.error)
 		return (1);
-	philos = init_philos(parse, launch_time);
+	philos = init_philos(parse);
 	//print_philos(philos, parse.nb_philo);
 	printf("pre routine\n");
 	routine(philos);
