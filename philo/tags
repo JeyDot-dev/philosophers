@@ -44,25 +44,30 @@ TOTAL_OBJ	Makefile	/^TOTAL_OBJ		:=	$(words $(OBJ))$/;"	m
 UNAME_S	Makefile	/^UNAME_S 	:= $(shell uname -s)$/;"	m
 WHT	inc/philo.h	27;"	d
 YEL	inc/philo.h	23;"	d
+am_i_dead	src/main.c	/^int	am_i_dead(t_philo *philo)$/;"	f
+check_and_kill_philos	src/main.c	/^void check_and_kill_philos(t_philo *philos, int nb_philos)$/;"	f
+check_death	src/main.c	/^int	check_death(t_philo *philo)$/;"	f
 check_string	src/p_atoi.c	/^int	check_string(char *str)$/;"	f
 check_time_coherence	src/set_user_input.c	/^void	check_time_coherence(t_parse parse)$/;"	f
 count	Makefile	/^count = 0$/;"	m
 do_routine	src/main.c	/^void	*do_routine(void *v_philo)$/;"	f
 error	inc/philo.h	/^	int	error;$/;"	m	struct:s_parse
 forks	inc/philo.h	/^	int	forks[2];$/;"	m	struct:s_philo
+free_and_destroy	src/main.c	/^void free_and_destroy(t_philo *philos, int nb_philos)$/;"	f
 id	inc/philo.h	/^	int	id;$/;"	m	struct:s_philo
 init_extension	src/main.c	/^t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)$/;"	f
 init_philos	src/main.c	/^t_philo *init_philos(t_parse parse)$/;"	f
 is_dead	inc/philo.h	/^	int	is_dead;$/;"	m	struct:s_philo
 is_eating	inc/philo.h	/^	int	is_eating;$/;"	m	struct:s_philo
-join_threads	src/main.c	/^int	join_threads(pthread_t *threads, int nb_philos)$/;"	f
+join_threads	src/main.c	/^int	join_threads(pthread_t *threads, t_philo *philos)$/;"	f
+kill_philo	src/main.c	/^void	kill_philo(t_philo *philo)$/;"	f
 l_forks	inc/philo.h	/^	pthread_mutex_t *l_forks;$/;"	m	struct:s_locks
 l_is_dead	inc/philo.h	/^	pthread_mutex_t	*l_is_dead;$/;"	m	struct:s_locks
 l_is_eating	inc/philo.h	/^	pthread_mutex_t	*l_is_eating;$/;"	m	struct:s_locks
 l_last_eat	inc/philo.h	/^	pthread_mutex_t	*l_last_eat;$/;"	m	struct:s_locks
 l_nb_eaten	inc/philo.h	/^	pthread_mutex_t	*l_nb_eaten;$/;"	m	struct:s_locks
 l_print	inc/philo.h	/^	pthread_mutex_t	*l_print;$/;"	m	struct:s_locks
-last_eat	inc/philo.h	/^	int	last_eat;$/;"	m	struct:s_philo
+last_eat	inc/philo.h	/^	long long	last_eat;$/;"	m	struct:s_philo
 locks	inc/philo.h	/^	t_locks	*locks;$/;"	m	struct:s_philo
 main	src/main.c	/^int	main(int ac, char **av)$/;"	f
 malloc_philos	src/main.c	/^t_philo *malloc_philos(int nb_philos)$/;"	f
@@ -87,7 +92,7 @@ s_philo	inc/philo.h	/^typedef struct	s_philo$/;"	s
 set_user_extension	src/set_user_input.c	/^t_parse	set_user_extension(int ac, char **av, int i, t_parse parse)$/;"	f
 set_user_input	src/set_user_input.c	/^t_parse	set_user_input(int ac, char **av)$/;"	f
 start	inc/philo.h	/^	struct timeval	start;$/;"	m	struct:s_philo	typeref:struct:s_philo::timeval
-super_sleep	src/main.c	/^void	super_sleep(struct timeval launch_time, int time)$/;"	f
+super_sleep	src/main.c	/^void	super_sleep(struct timeval launch_time, long time)$/;"	f
 swap_forks	src/main.c	/^t_philo *swap_forks(t_philo *philo, int i)$/;"	f
 t_locks	inc/philo.h	/^}				t_locks;$/;"	t	typeref:struct:s_locks
 t_parse	inc/philo.h	/^}				t_parse;$/;"	t	typeref:struct:s_parse
@@ -95,5 +100,5 @@ t_philo	inc/philo.h	/^}				t_philo;$/;"	t	typeref:struct:s_philo
 time_die	inc/philo.h	/^	int	time_die;$/;"	m	struct:s_parse
 time_eat	inc/philo.h	/^	int	time_eat;$/;"	m	struct:s_parse
 time_sleep	inc/philo.h	/^	int	time_sleep;$/;"	m	struct:s_parse
-timestamp	src/main.c	/^int	timestamp(struct timeval launch_time, char c)$/;"	f
+timestamp	src/main.c	/^long long	timestamp(struct timeval launch_time, char c)$/;"	f
 utimestamp	src/main.c	/^void	utimestamp(struct timeval launch_time, char *str)$/;"	f

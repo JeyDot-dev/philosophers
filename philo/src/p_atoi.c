@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:17:38 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/30 13:56:40 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:53:58 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -35,8 +35,12 @@ int	check_string(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] < '0' && str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
+		{
+			printf("Error: Wrong argument, expected :\n\
+			[number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
 			return (0);
+		}
 		i++;
 	}
 	return (1);

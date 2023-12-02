@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:48:05 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/11/30 16:16:15 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/02 14:58:30 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -82,7 +82,7 @@ t_parse	set_user_input(int ac, char **av)
 		return (parse);
 	}
 	parse = set_user_extension(ac, av, i, parse);
-	if (!parse.error)
-		print_parse(parse, ac);
+//	if (!parse.error)
+//		print_parse(parse, ac);
 	return (parse);
 }

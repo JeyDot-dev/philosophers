@@ -97,7 +97,10 @@ endif
 re		:	fclean all
 			echo "\033[5;33m \t\tALL RECOMPILED !!! $(RST)"
 test	:	all
-			./$(NAME) 5 800 200 200 5
+			./$(NAME) 5 610 200 200 5
+			echo "$(GRN) The test was 5 610 20 20 5\nShould not die $(RST)"
+			./$(NAME) 5 310 200 100 5
+			echo "$(RED) The test was 5 310 200 100 5\nShould die $(RST)"
 
 .PHONY	:	all clean fclean re test
 .SILENT :

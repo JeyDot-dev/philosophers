@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/01 15:14:13 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/01 20:57:55 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct	s_philo
 	int	forks[2];
 	int	nb_eaten;
 	int	is_eating;
-	int	last_eat;
+	long long	last_eat;
 	int	is_dead;
 	struct timeval	start;
 	t_locks	*locks;
