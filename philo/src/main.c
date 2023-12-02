@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/02 17:44:54 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/02 20:01:12 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ void	super_sleep(struct timeval launch_time, long time)
 	gettimeofday(&current_time, NULL);
 	time = current_time.tv_sec * 1000 + current_time.tv_usec / 1000 + time;
 	while (current_time.tv_sec * 1000 + current_time.tv_usec / 1000 < time)
+	{
+		usleep(100);
 		gettimeofday(&current_time, NULL);
+	}
 }
 void check_and_kill_philos(t_philo *philos, int nb_philos)
 {
@@ -124,6 +127,12 @@ void check_and_kill_philos(t_philo *philos, int nb_philos)
 		philos[i].is_dead = 1;
 		pthread_mutex_unlock(&philos->locks->l_is_eating[philos[i].id - 1]);
 		i++;
+	}
+	if (nb_eaten == nb_philos)
+	{
+		pthread_mutex_lock(philos->locks->l_print);
+		printf("All philosophers have eaten %d times\n", philos->parse.nb_eat);
+		pthread_mutex_unlock(philos->locks->l_print);
 	}
 }
 
@@ -244,24 +253,26 @@ void	*do_routine(void *v_philo)
 
 	philo = (t_philo *) v_philo;
 	id = philo->id;
+	if (id % 2 == 1)
+		super_sleep(philo->start, philo->parse.time_eat / 2);
 	while (!philo->is_dead)
 	{
-		if (id % 2 == 1)
-		{
-			routine_sleep(philo, philo->start);
-			routine_think(philo, philo->start);
+//		if (id % 2 == 1)
+//		{
+//			routine_sleep(philo, philo->start);
+//			routine_think(philo, philo->start);
+//			routine_take_forks(philo, philo->start);
+//			routine_eat(philo, philo->start);
+//			routine_put_forks(philo);
+//		}
+//		else
+//		{
 			routine_take_forks(philo, philo->start);
 			routine_eat(philo, philo->start);
 			routine_put_forks(philo);
-		}
-		else
-		{
-			routine_take_forks(philo, philo->start);
-			routine_eat(philo, philo->start);
-			routine_put_forks(philo);
 			routine_sleep(philo, philo->start);
 			routine_think(philo, philo->start);
-		}
+//		}
 	}
 	return (0);
 }
@@ -272,7 +283,7 @@ int	routine(t_philo *philos)
 	struct timeval	start;
 	int			i;
 
-	i = 1;
+	i = 0;
 	nb_philos = philos->parse.nb_philo;
 	threads = malloc(sizeof(pthread_t) * philos->parse.nb_philo);
 	gettimeofday(&start, NULL);
@@ -280,14 +291,7 @@ int	routine(t_philo *philos)
 	{
 		philos[i].start = start;
 		pthread_create(&threads[i], NULL, do_routine, &philos[i]);
-		i += 2;
-	}
-	i = 0;
-	while (i < nb_philos)
-	{
-		philos[i].start = start;
-		pthread_create(&threads[i], NULL, do_routine, &philos[i]);
-		i += 2;
+		i ++;
 	}
 	join_threads(threads, philos);
 	return (0);
@@ -320,9 +324,9 @@ t_philo *malloc_philos(int nb_philos)
 }
 t_philo *swap_forks(t_philo *philo, int i)
 {
-	philo[i].forks[1] = 0;
-//	philo[i].forks[0] = 0;
-//	philo[i].forks[1] = i;
+//	philo[i].forks[1] = 0;
+	philo[i].forks[0] = 0;
+	philo[i].forks[1] = i;
 	return (philo);
 }
 t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
