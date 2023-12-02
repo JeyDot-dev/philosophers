@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/02 20:01:12 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/02 20:15:09 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,16 +226,22 @@ int routine_take_forks(t_philo *philo, struct timeval launch_time)
 	printf("%d has taken a fork\n", philo->id);
 	pthread_mutex_unlock(philo->locks->l_print);
 	pthread_mutex_lock(&philo->locks->l_forks[philo->forks[0]]);
+	pthread_mutex_lock(philo->locks->l_print);
 	if (am_i_dead(philo))
 	{
 		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
 		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
 		return (0);
 	}
-	pthread_mutex_lock(philo->locks->l_print);
 	timestamp(launch_time, '1');
 	printf("%d has taken a fork\n", philo->id);
 	pthread_mutex_unlock(philo->locks->l_print);
+	if (am_i_dead(philo))
+	{
+		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
+		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
+		return (0);
+	}
 	return (0);
 }
 int routine_put_forks(t_philo *philo)
@@ -255,7 +261,7 @@ void	*do_routine(void *v_philo)
 	id = philo->id;
 	if (id % 2 == 1)
 		super_sleep(philo->start, philo->parse.time_eat / 2);
-	while (!philo->is_dead)
+	while (am_i_dead(philo) == 0)
 	{
 //		if (id % 2 == 1)
 //		{
