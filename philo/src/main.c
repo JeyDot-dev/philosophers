@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/02 20:15:09 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 12:01:02 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,15 +200,11 @@ int	routine_eat(t_philo *philo, struct timeval launch_time)
 	philo->last_eat = timestamp(launch_time, '0') + time_to_eat;
 	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
 	super_sleep(launch_time, time_to_eat);
+	pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
+	pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
 	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
 	philo->nb_eaten++;
-	philo->last_eat = timestamp(launch_time, '0');
 	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
-	if (am_i_dead(philo))
-	{
-		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
-		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
-	}
 	return (0);
 }
 int routine_take_forks(t_philo *philo, struct timeval launch_time)
@@ -226,13 +222,13 @@ int routine_take_forks(t_philo *philo, struct timeval launch_time)
 	printf("%d has taken a fork\n", philo->id);
 	pthread_mutex_unlock(philo->locks->l_print);
 	pthread_mutex_lock(&philo->locks->l_forks[philo->forks[0]]);
-	pthread_mutex_lock(philo->locks->l_print);
 	if (am_i_dead(philo))
 	{
 		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[0]]);
 		pthread_mutex_unlock(&philo->locks->l_forks[philo->forks[1]]);
 		return (0);
 	}
+	pthread_mutex_lock(philo->locks->l_print);
 	timestamp(launch_time, '1');
 	printf("%d has taken a fork\n", philo->id);
 	pthread_mutex_unlock(philo->locks->l_print);
@@ -275,7 +271,6 @@ void	*do_routine(void *v_philo)
 //		{
 			routine_take_forks(philo, philo->start);
 			routine_eat(philo, philo->start);
-			routine_put_forks(philo);
 			routine_sleep(philo, philo->start);
 			routine_think(philo, philo->start);
 //		}
@@ -328,13 +323,6 @@ t_philo *malloc_philos(int nb_philos)
 	philos->locks = locks;
 	return (philos);
 }
-t_philo *swap_forks(t_philo *philo, int i)
-{
-//	philo[i].forks[1] = 0;
-	philo[i].forks[0] = 0;
-	philo[i].forks[1] = i;
-	return (philo);
-}
 t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 {
 	int	i;
@@ -346,7 +334,7 @@ t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 		philos[i].forks[0] = i;
 		pthread_mutex_init(&locks->l_forks[philos[i].forks[0]], NULL);
 		if (i == parse.nb_philo - 1)
-			philos = swap_forks(philos, i);
+			philos[i].forks[1] = 0;
 		else
 			philos[i].forks[1] = i + 1;
 		philos[i].is_dead = 0;
