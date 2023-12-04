@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:42:40 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:45:17 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:11:10 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	routine_think(t_philo *philo, struct timeval launch_time)
 int	routine_eat(t_philo *philo, struct timeval launch_time)
 {
 	int	time_to_eat;
+
 	if (am_i_dead(philo))
 		return (1);
 	pthread_mutex_lock(philo->locks->l_print);

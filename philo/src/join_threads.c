@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:47:35 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:51:39 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:18:11 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_death(t_philo *philo)
 	return (0);
 }
 
-void kill_and_check_nb_eaten(t_philo *philos, int nb_eaten, int nb_philos)
+void	kill_and_check_nb_eaten(t_philo *philos, int nb_eaten, int nb_philos)
 {
 	int	i;
 
@@ -58,7 +58,7 @@ void kill_and_check_nb_eaten(t_philo *philos, int nb_eaten, int nb_philos)
 	}
 }
 
-void check_and_kill_philos(t_philo *philos, int nb_philos)
+void	check_and_kill_philos(t_philo *philos, int nb_philos)
 {
 	int	i;
 	int	nb_eaten;
@@ -70,7 +70,8 @@ void check_and_kill_philos(t_philo *philos, int nb_philos)
 		pthread_mutex_lock(&philos->locks->l_is_eating[philos[i].id - 1]);
 		if (check_death(&philos[i]))
 			break ;
-		if (philos[i].parse.nb_eat >= 0 && philos[i].nb_eaten >= philos[i].parse.nb_eat)
+		if (philos[i].parse.nb_eat >= 0
+			&& philos[i].nb_eaten >= philos[i].parse.nb_eat)
 			nb_eaten++;
 		pthread_mutex_unlock(&philos->locks->l_is_eating[philos[i].id - 1]);
 		i++;

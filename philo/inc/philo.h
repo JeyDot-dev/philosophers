@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:58:43 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:23:39 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 typedef struct s_locks
 {
-	pthread_mutex_t *l_forks;
+	pthread_mutex_t	*l_forks;
 	pthread_mutex_t	*l_is_eating;
 	pthread_mutex_t	*l_is_dead;
 	pthread_mutex_t	*l_nb_eaten;
@@ -36,7 +36,7 @@ typedef struct s_locks
 	pthread_mutex_t	*l_print;
 }				t_locks;
 
-typedef struct	s_parse
+typedef struct s_parse
 {
 	int	nb_philo;
 	int	time_die;
@@ -46,19 +46,18 @@ typedef struct	s_parse
 	int	error;
 }				t_parse;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
-	int	id;
-	int	forks[2];
-	int	nb_eaten;
-	int	is_eating;
-	long long	last_eat;
-	int	is_dead;
+	int				id;
+	int				forks[2];
+	int				nb_eaten;
+	int				is_eating;
+	long long		last_eat;
+	int				is_dead;
 	struct timeval	start;
-	t_locks	*locks;
-	t_parse	parse;
+	t_locks			*locks;
+	t_parse			parse;
 }				t_philo;
-
 
 t_parse		set_user_input(int ac, char **av);
 int			p_atoi(char *str);

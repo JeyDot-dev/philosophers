@@ -6,11 +6,11 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:35:59 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:39:48 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:16:05 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
+
 int	dead_forks(t_philo *philo, pthread_mutex_t *forks, int mode)
 {
 	if (am_i_dead(philo))
@@ -26,7 +26,8 @@ int	dead_forks(t_philo *philo, pthread_mutex_t *forks, int mode)
 	}
 	return (0);
 }
-int routine_take_forks(t_philo *philo, struct timeval launch_time)
+
+int	routine_take_forks(t_philo *philo, struct timeval launch_time)
 {
 	if (am_i_dead(philo))
 		return (1);

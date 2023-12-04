@@ -6,13 +6,12 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:30:18 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:31:08 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:20:23 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
 
-t_philo *malloc_philos(int nb_philos)
+t_philo	*malloc_philos(int nb_philos)
 {
 	t_philo	*philos;
 	t_locks	*locks;
@@ -39,10 +38,10 @@ t_philo *malloc_philos(int nb_philos)
 	return (philos);
 }
 
-t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
+t_philo	*init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < parse.nb_philo)
 	{
@@ -63,7 +62,7 @@ t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)
 	return (philos);
 }
 
-t_philo *init_philos(t_parse parse)
+t_philo	*init_philos(t_parse parse)
 {
 	t_philo	*philos;
 	int		i;
@@ -73,7 +72,8 @@ t_philo *init_philos(t_parse parse)
 	if (!philos)
 		return (NULL);
 	philos = init_extension(philos, parse, philos->locks);
-	philos->locks->l_is_eating = malloc(sizeof(pthread_mutex_t) * parse.nb_philo);
+	philos->locks->l_is_eating = malloc(sizeof(pthread_mutex_t)
+			* parse.nb_philo);
 	if (!philos->locks->l_is_eating)
 	{
 		free(philos);

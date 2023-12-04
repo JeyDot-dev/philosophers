@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:48:05 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/02 14:58:30 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:13:47 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -25,21 +25,27 @@ void	check_time_coherence(t_parse parse)
 	if (parse.nb_philo > 1 && parse.nb_philo % 2 == 1)
 		time_to_eat_total = parse.time_eat * 2;
 	if (parse.time_die < time_to_eat_total + parse.time_sleep)
-		print_error("Time to die is too short (or time to eat/sleep is too long)");
+		print_error("Time to die is too short \
+(or time to eat/sleep is too long)");
 }
+
 void	print_parse(t_parse parse, int ac)
 {
 	if (ac == 6)
 	{
-		printf("|\tnb phils\t|\ttime to die\t|\ttime to eat\t|\ttime to sleep\t|\tnb eat\t|\n");
-		printf("|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t|\n", parse.nb_philo, parse.time_die,
-		parse.time_eat, parse.time_sleep, parse.nb_eat);
+		printf("|\tnb phils\t|\ttime to die\t|\ttime to eat\t|\ttime to \
+sleep\t|\tnb eat\t|\n");
+		printf("|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t|\n",
+			parse.nb_philo, parse.time_die,
+			parse.time_eat, parse.time_sleep, parse.nb_eat);
 	}
 	else
 	{
-		printf("|\tnb phils\t|\ttime to die\t|\ttime to eat\t|\ttime to sleep\t|\n");
-		printf("|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t\t|\n", parse.nb_philo, parse.time_die,
-		parse.time_eat, parse.time_sleep);
+		printf("|\tnb phils\t|\ttime to die\t|\ttime to eat\t|\ttime to \
+sleep\t|\n");
+		printf("|\t%d\t\t|\t%d\t\t|\t%d\t\t|\t%d\t\t|\n",
+			parse.nb_philo, parse.time_die,
+			parse.time_eat, parse.time_sleep);
 	}
 }
 
@@ -82,7 +88,5 @@ t_parse	set_user_input(int ac, char **av)
 		return (parse);
 	}
 	parse = set_user_extension(ac, av, i, parse);
-//	if (!parse.error)
-//		print_parse(parse, ac);
 	return (parse);
 }
