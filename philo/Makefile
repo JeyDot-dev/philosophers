@@ -17,7 +17,9 @@ BUILD_D		:=	.build/
 #LIB_D		:=	libft/
 INC			:=	inc/
 #---------------Add .c / .h here \/--------------
-SRC			:=	main.c p_atoi.c set_user_input.c
+SRC			:=	main.c p_atoi.c 	set_user_input.c	am_i_dead.c\
+				init_philos.c		routine.c			time.c\
+				routine_forks.c		routine_others.c	join_threads.c
 #LIB			:=	ft readline
 #FRAMEWORK	:=	OpenGL	AppKit
 #----------------------IGNORE--------------------

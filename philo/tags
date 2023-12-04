@@ -38,29 +38,31 @@ RED	inc/philo.h	21;"	d
 RM	Makefile	/^RM			:=	rm -rf$/;"	m
 RST	Makefile	/^RST	= \\033[0m$/;"	m
 SRC	Makefile	/^SRC			:=	$(SRC:%=$(SRC_D)%)$/;"	m
-SRC	Makefile	/^SRC			:=	main.c p_atoi.c set_user_input.c$/;"	m
+SRC	Makefile	/^SRC			:=	main.c p_atoi.c 	set_user_input.c	am_i_dead.c\\$/;"	m
 SRC_D	Makefile	/^SRC_D		:=	src\/$/;"	m
 TOTAL_OBJ	Makefile	/^TOTAL_OBJ		:=	$(words $(OBJ))$/;"	m
 UNAME_S	Makefile	/^UNAME_S 	:= $(shell uname -s)$/;"	m
 WHT	inc/philo.h	27;"	d
 YEL	inc/philo.h	23;"	d
-am_i_dead	src/main.c	/^int	am_i_dead(t_philo *philo)$/;"	f
-check_and_kill_philos	src/main.c	/^void check_and_kill_philos(t_philo *philos, int nb_philos)$/;"	f
-check_death	src/main.c	/^int	check_death(t_philo *philo)$/;"	f
+am_i_dead	src/am_i_dead.c	/^int	am_i_dead(t_philo *philo)$/;"	f
+check_and_kill_philos	src/join_threads.c	/^void check_and_kill_philos(t_philo *philos, int nb_philos)$/;"	f
+check_death	src/join_threads.c	/^int	check_death(t_philo *philo)$/;"	f
 check_string	src/p_atoi.c	/^int	check_string(char *str)$/;"	f
 check_time_coherence	src/set_user_input.c	/^void	check_time_coherence(t_parse parse)$/;"	f
 count	Makefile	/^count = 0$/;"	m
-do_routine	src/main.c	/^void	*do_routine(void *v_philo)$/;"	f
+dead_forks	src/routine_forks.c	/^int	dead_forks(t_philo *philo, pthread_mutex_t *forks, int mode)$/;"	f
+do_routine	src/routine.c	/^void	*do_routine(void *v_philo)$/;"	f
 error	inc/philo.h	/^	int	error;$/;"	m	struct:s_parse
 forks	inc/philo.h	/^	int	forks[2];$/;"	m	struct:s_philo
-free_and_destroy	src/main.c	/^void free_and_destroy(t_philo *philos, int nb_philos)$/;"	f
+free_and_destroy	src/routine.c	/^void free_and_destroy(t_philo *philos, int nb_philos)$/;"	f
 id	inc/philo.h	/^	int	id;$/;"	m	struct:s_philo
-init_extension	src/main.c	/^t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)$/;"	f
-init_philos	src/main.c	/^t_philo *init_philos(t_parse parse)$/;"	f
+init_extension	src/init_philos.c	/^t_philo *init_extension(t_philo *philos, t_parse parse, t_locks *locks)$/;"	f
+init_philos	src/init_philos.c	/^t_philo *init_philos(t_parse parse)$/;"	f
 is_dead	inc/philo.h	/^	int	is_dead;$/;"	m	struct:s_philo
 is_eating	inc/philo.h	/^	int	is_eating;$/;"	m	struct:s_philo
-join_threads	src/main.c	/^int	join_threads(pthread_t *threads, t_philo *philos)$/;"	f
-kill_philo	src/main.c	/^void	kill_philo(t_philo *philo)$/;"	f
+join_threads	src/join_threads.c	/^void	join_threads(pthread_t *threads, t_philo *philos)$/;"	f
+kill_and_check_nb_eaten	src/join_threads.c	/^void kill_and_check_nb_eaten(t_philo *philos, int nb_eaten, int nb_philos)$/;"	f
+kill_philo	src/join_threads.c	/^void	kill_philo(t_philo *philo)$/;"	f
 l_forks	inc/philo.h	/^	pthread_mutex_t *l_forks;$/;"	m	struct:s_locks
 l_is_dead	inc/philo.h	/^	pthread_mutex_t	*l_is_dead;$/;"	m	struct:s_locks
 l_is_eating	inc/philo.h	/^	pthread_mutex_t	*l_is_eating;$/;"	m	struct:s_locks
@@ -70,7 +72,7 @@ l_print	inc/philo.h	/^	pthread_mutex_t	*l_print;$/;"	m	struct:s_locks
 last_eat	inc/philo.h	/^	long long	last_eat;$/;"	m	struct:s_philo
 locks	inc/philo.h	/^	t_locks	*locks;$/;"	m	struct:s_philo
 main	src/main.c	/^int	main(int ac, char **av)$/;"	f
-malloc_philos	src/main.c	/^t_philo *malloc_philos(int nb_philos)$/;"	f
+malloc_philos	src/init_philos.c	/^t_philo *malloc_philos(int nb_philos)$/;"	f
 nb_eat	inc/philo.h	/^	int	nb_eat;$/;"	m	struct:s_parse
 nb_eaten	inc/philo.h	/^	int	nb_eaten;$/;"	m	struct:s_philo
 nb_philo	inc/philo.h	/^	int	nb_philo;$/;"	m	struct:s_parse
@@ -79,25 +81,22 @@ p_strlen	src/p_atoi.c	/^int	p_strlen(char *str)$/;"	f
 parse	inc/philo.h	/^	t_parse	parse;$/;"	m	struct:s_philo
 print_error	src/set_user_input.c	/^int	print_error(char *str)$/;"	f
 print_parse	src/set_user_input.c	/^void	print_parse(t_parse parse, int ac)$/;"	f
-print_philos	src/main.c	/^void	print_philos(t_philo *philos, int nb_philos)$/;"	f
-routine	src/main.c	/^int	routine(t_philo *philos)$/;"	f
-routine_eat	src/main.c	/^int	routine_eat(t_philo *philo, struct timeval launch_time)$/;"	f
-routine_put_forks	src/main.c	/^int routine_put_forks(t_philo *philo)$/;"	f
-routine_sleep	src/main.c	/^int	routine_sleep(t_philo *philo, struct timeval launch_time)$/;"	f
-routine_take_forks	src/main.c	/^int routine_take_forks(t_philo *philo, struct timeval launch_time)$/;"	f
-routine_think	src/main.c	/^int	routine_think(t_philo *philo, struct timeval launch_time)$/;"	f
+routine	src/routine.c	/^void routine(t_philo *philos)$/;"	f
+routine_eat	src/routine_others.c	/^int	routine_eat(t_philo *philo, struct timeval launch_time)$/;"	f
+routine_sleep	src/routine_others.c	/^int	routine_sleep(t_philo *philo, struct timeval launch_time)$/;"	f
+routine_take_forks	src/routine_forks.c	/^int routine_take_forks(t_philo *philo, struct timeval launch_time)$/;"	f
+routine_think	src/routine_others.c	/^int	routine_think(t_philo *philo, struct timeval launch_time)$/;"	f
 s_locks	inc/philo.h	/^typedef struct s_locks$/;"	s
 s_parse	inc/philo.h	/^typedef struct	s_parse$/;"	s
 s_philo	inc/philo.h	/^typedef struct	s_philo$/;"	s
 set_user_extension	src/set_user_input.c	/^t_parse	set_user_extension(int ac, char **av, int i, t_parse parse)$/;"	f
 set_user_input	src/set_user_input.c	/^t_parse	set_user_input(int ac, char **av)$/;"	f
 start	inc/philo.h	/^	struct timeval	start;$/;"	m	struct:s_philo	typeref:struct:s_philo::timeval
-super_sleep	src/main.c	/^void	super_sleep(struct timeval launch_time, long time)$/;"	f
+super_sleep	src/time.c	/^void	super_sleep(struct timeval launch_time, long time)$/;"	f
 t_locks	inc/philo.h	/^}				t_locks;$/;"	t	typeref:struct:s_locks
 t_parse	inc/philo.h	/^}				t_parse;$/;"	t	typeref:struct:s_parse
 t_philo	inc/philo.h	/^}				t_philo;$/;"	t	typeref:struct:s_philo
 time_die	inc/philo.h	/^	int	time_die;$/;"	m	struct:s_parse
 time_eat	inc/philo.h	/^	int	time_eat;$/;"	m	struct:s_parse
 time_sleep	inc/philo.h	/^	int	time_sleep;$/;"	m	struct:s_parse
-timestamp	src/main.c	/^long long	timestamp(struct timeval launch_time, char c)$/;"	f
-utimestamp	src/main.c	/^void	utimestamp(struct timeval launch_time, char *str)$/;"	f
+timestamp	src/time.c	/^long long	timestamp(struct timeval launch_time, char c)$/;"	f

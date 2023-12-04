@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:16:26 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/01 20:57:55 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/04 13:58:43 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,17 @@ typedef struct	s_philo
 }				t_philo;
 
 
-t_parse	set_user_input(int ac, char **av);
-int	p_atoi(char *str);
+t_parse		set_user_input(int ac, char **av);
+int			p_atoi(char *str);
+t_philo		*init_philos(t_parse parse);
+void		routine(t_philo *philos);
+void		super_sleep(struct timeval launch_time, long time);
+long long	timestamp(struct timeval launch_time, char c);
+int			routine_take_forks(t_philo *philo, struct timeval launch_time);
+int			routine_eat(t_philo *philo, struct timeval launch_time);
+int			routine_think(t_philo *philo, struct timeval launch_time);
+int			routine_sleep(t_philo *philo, struct timeval launch_time);
+void		join_threads(pthread_t *threads, t_philo *philos);
+int			am_i_dead(t_philo *philo);
+void		free_and_destroy(t_philo *philos, int nb_philos);
 #endif

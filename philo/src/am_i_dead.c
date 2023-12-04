@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   am_i_dead.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 12:14:21 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 13:56:15 by jsousa-a         ###   ########.fr       */
+/*   Created: 2023/12/04 13:55:43 by jsousa-a          #+#    #+#             */
+/*   Updated: 2023/12/04 13:55:55 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-int	main(int ac, char **av)
+int	am_i_dead(t_philo *philo)
 {
-	t_parse			parse;
-	t_philo			*philos;
-
-	parse = set_user_input(ac, av);
-	if (parse.error)
+	pthread_mutex_lock(&philo->locks->l_is_eating[philo->id - 1]);
+	if (philo->is_dead)
+	{
+		pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
 		return (1);
-	philos = init_philos(parse);
-	routine(philos);
+	}
+	pthread_mutex_unlock(&philo->locks->l_is_eating[philo->id - 1]);
 	return (0);
 }
