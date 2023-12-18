@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:48:05 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 14:13:47 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:11:18 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -81,6 +81,7 @@ t_parse	set_user_input(int ac, char **av)
 	int		i;
 
 	i = 0;
+	parse.error = 0;
 	if (ac < 5 || ac > 6)
 	{
 		printf("Error: Wrong number of arguments\n");
