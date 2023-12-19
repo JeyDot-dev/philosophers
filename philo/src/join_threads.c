@@ -6,7 +6,7 @@
 /*   By: jsousa-a <jsousa-a@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 13:47:35 by jsousa-a          #+#    #+#             */
-/*   Updated: 2023/12/04 14:18:11 by jsousa-a         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:28:37 by jsousa-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	kill_philo(t_philo *philo)
 	int	current_time;
 
 	current_time = timestamp(philo->start, '0');
-	if (current_time - philo->last_eat > philo->parse.time_die)
+	if (current_time - philo->last_eat >= philo->parse.time_die)
 		philo->is_dead = 1;
 }
 
